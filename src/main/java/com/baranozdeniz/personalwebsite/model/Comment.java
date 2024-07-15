@@ -21,6 +21,8 @@ public class Comment extends BaseEntity {
 
     @Column(name = "user_id")
     private UUID userId;
+    @Column(name = "project_id")
+    private UUID projectId;
     @Column(name = "text")
     private String text;
 
