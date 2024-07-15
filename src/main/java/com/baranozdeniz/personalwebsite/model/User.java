@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -27,6 +28,12 @@ public class User extends BaseEntity {
     private String email;
     @Column(name = "password")
     private String password;
+    @Column(name = "biography")
+    private String biography;
+    @Column(name = "profession")
+    private String profession;
+    @Column(name = "birthday")
+    private LocalDate birthday;
     @Column(name = "role")
     private String role;
 

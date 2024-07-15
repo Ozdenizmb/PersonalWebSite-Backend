@@ -22,6 +22,10 @@ management:
       exposure:
         include: health,info
 
+## Admin Key ##
+admin:
+  key: ${adminSignUpKey}
+
 ## OpenApi Settings ##
 springdoc:
   swagger-ui:
