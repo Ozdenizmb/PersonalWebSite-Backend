@@ -1,0 +1,39 @@
+server:
+  port: 9001
+  shutdown: graceful
+  netty:
+    connection-timeout: 2s
+    idle-timeout: 15s
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/personal_website
+    username: postgres
+    password: 159753
+    pool:
+      max-create-connection-time: 2s
+      initial-size: 5
+      max-size: 10
+
+## Actuator ##
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+## OpenApi Settings ##
+springdoc:
+  swagger-ui:
+    disable-swagger-default-url: true
+    path: "/docs/swagger-ui.html"
+
+openapi:
+  app:
+    title: "Personal Web Site"
+    description: "This project constitutes the back-end part of my personal website."
+    version: 1.0
+    contact : "Contact Support"
+    email: "ozdenizm6@gmail.com"
+    licence: "Ozdeniz 1.0"
+    url: "https://baranozdeniz.com"
