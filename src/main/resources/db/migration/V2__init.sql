@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS util_sch.project_data
     url                         VARCHAR NOT NULL,
     technologies                VARCHAR NOT NULL,
     image_url                   VARCHAR NOT NULL,
-    like_count                  INT NOT NULL,
     created_date                DATE NOT NULL,
     updated_date                DATE NOT NULL,
     PRIMARY KEY (id)

@@ -11,23 +11,17 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "project_data", schema = "util_sch")
+@Table(name = "like_data", schema = "util_sch")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Project extends BaseEntity {
+public class Like extends BaseEntity {
 
     @Id
     @GeneratedValue
     private UUID id;
 
-    @Column(name = "name")
-    private String name;
-    @Column(name = "description")
-    private String description;
-    @Column(name = "url")
-    private String url;
-    @Column(name = "technologies")
-    private String technologies;
-    @Column(name = "image_url")
-    private String imageUrl;
+    @Column(name = "user_id")
+    private UUID userId;
+    @Column(name = "project_id")
+    private UUID projectId;
 
 }
