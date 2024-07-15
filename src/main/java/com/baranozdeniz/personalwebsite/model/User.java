@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "admin_data", schema = "util_sch")
+@Table(name = "user_data", schema = "util_sch")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class User extends BaseEntity {
 
