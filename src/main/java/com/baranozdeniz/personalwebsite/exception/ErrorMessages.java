@@ -16,4 +16,6 @@ public class ErrorMessages {
 
     public static final String COMMENT_NOT_FOUND = "Comment Not Found!";
 
+    public static final String LIKE_NOT_FOUND = "Like Not Found!";
+
 }
