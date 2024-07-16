@@ -14,4 +14,6 @@ public class ErrorMessages {
 
     public static final String PROJECT_NOT_FOUND = "Project Not Found!";
 
+    public static final String COMMENT_NOT_FOUND = "Comment Not Found!";
+
 }
