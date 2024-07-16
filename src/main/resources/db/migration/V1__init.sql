@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS util_sch.user_data
     last_name                   VARCHAR NOT NULL,
     email                       VARCHAR NOT NULL UNIQUE,
     password                    VARCHAR NOT NULL,
+    image_url                   VARCHAR UNIQUE,
     biography                   VARCHAR,
     profession                  VARCHAR,
     birthday                    DATE,

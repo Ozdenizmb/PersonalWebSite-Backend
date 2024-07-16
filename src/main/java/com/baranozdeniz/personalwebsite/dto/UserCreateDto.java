@@ -13,6 +13,7 @@ public record UserCreateDto(
         String email,
         @NotNull
         String password,
+        String imageUrl,
         String biography,
         String profession,
         LocalDate birthday

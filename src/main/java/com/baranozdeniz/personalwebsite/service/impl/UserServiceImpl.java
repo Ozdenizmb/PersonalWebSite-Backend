@@ -5,6 +5,7 @@ import com.baranozdeniz.personalwebsite.dto.UserDto;
 import com.baranozdeniz.personalwebsite.dto.UserUpdateDto;
 import com.baranozdeniz.personalwebsite.exception.ErrorMessages;
 import com.baranozdeniz.personalwebsite.exception.PwsException;
+import com.baranozdeniz.personalwebsite.mapper.PageMapperHelper;
 import com.baranozdeniz.personalwebsite.mapper.UserMapper;
 import com.baranozdeniz.personalwebsite.model.User;
 import com.baranozdeniz.personalwebsite.repository.UserRepository;
@@ -12,10 +13,11 @@ import com.baranozdeniz.personalwebsite.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -75,14 +77,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllUsers() {
-        List<User> responseUsers = repository.findAllByRole("USER");
+    public Page<UserDto> getAllUsers(Pageable pageable) {
+        Page<User> responseUsers = repository.findAllByRole("USER", pageable);
 
         if(responseUsers.isEmpty()) {
             throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
         }
 
-        return mapper.toDtoList(responseUsers);
+        return PageMapperHelper.mapEntityPageToDtoPage(responseUsers, mapper);
     }
 
     @Override
@@ -108,14 +110,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<UserDto> getAllAdmins() {
-        List<User> responseUsers = repository.findAllByRole("ADMIN");
+    public Page<UserDto> getAllAdmins(Pageable pageable) {
+        Page<User> responseUsers = repository.findAllByRole("ADMIN", pageable);
 
         if(responseUsers.isEmpty()) {
             throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.ADMIN_NOT_FOUND);
         }
 
-        return mapper.toDtoList(responseUsers);
+        return PageMapperHelper.mapEntityPageToDtoPage(responseUsers, mapper);
     }
 
     @Override

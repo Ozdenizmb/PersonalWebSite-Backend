@@ -9,6 +9,7 @@ public record UserDto(
         String firstName,
         String lastName,
         String email,
+        String imageUrl,
         String biography,
         String profession,
         LocalDate birthday,

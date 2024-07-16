@@ -6,10 +6,11 @@ import com.baranozdeniz.personalwebsite.dto.UserDto;
 import com.baranozdeniz.personalwebsite.dto.UserUpdateDto;
 import com.baranozdeniz.personalwebsite.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -39,8 +40,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<UserDto>> getAllUsers() {
-        return ResponseEntity.ok(service.getAllUsers());
+    public ResponseEntity<Page<UserDto>> getAllUsers(Pageable pageable) {
+        return ResponseEntity.ok(service.getAllUsers(pageable));
     }
 
     @Override
@@ -54,8 +55,8 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<List<UserDto>> getAllAdmins() {
-        return ResponseEntity.ok(service.getAllAdmins());
+    public ResponseEntity<Page<UserDto>> getAllAdmins(Pageable pageable) {
+        return ResponseEntity.ok(service.getAllAdmins(pageable));
     }
 
     @Override

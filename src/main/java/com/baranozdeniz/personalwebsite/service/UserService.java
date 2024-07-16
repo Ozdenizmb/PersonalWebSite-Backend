@@ -3,8 +3,9 @@ package com.baranozdeniz.personalwebsite.service;
 import com.baranozdeniz.personalwebsite.dto.UserCreateDto;
 import com.baranozdeniz.personalwebsite.dto.UserDto;
 import com.baranozdeniz.personalwebsite.dto.UserUpdateDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-import java.util.List;
 import java.util.UUID;
 
 public interface UserService {
@@ -13,10 +14,10 @@ public interface UserService {
     UserDto signUpAdmin(String key, UserCreateDto userCreateDto);
     UserDto getUserWithEmail(String email);
     UserDto getUserWithId(UUID id);
-    List<UserDto> getAllUsers();
+    Page<UserDto> getAllUsers(Pageable pageable);
     UserDto getAdminWithEmail(String email);
     UserDto getAdminWithId(UUID id);
-    List<UserDto> getAllAdmins();
+    Page<UserDto> getAllAdmins(Pageable pageable);
     UserDto updateUser(UUID id, UserUpdateDto userUpdateDto);
     UserDto updateAdmin(String key, UUID id, UserUpdateDto userUpdateDto);
     Boolean deleteUser(UUID id);
