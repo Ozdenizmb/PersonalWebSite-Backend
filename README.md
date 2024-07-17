@@ -20,6 +20,7 @@
 <p>awsRegion=&lt;YOUR_AWS_REGION_NAME&gt;</p>
 <p>awsCdnPath=&lt;YOUR_AWS_CDN_PATH&gt;</p>
 
-<p><i>You can write any key you want randomly. However, you must not forget this key information. If you forget this information, you won't be able to register as an admin.</i></p>
 <br><br><br>
+<p><i>For adminSignUpKey, you can randomly write the key you want. However, you must not forget this key information. If you forget this information, you won't be able to register as an admin.</i></p>
+<br>
 <p><b>For the interface (FrontEnd) to be usable, the Backend must be running. Otherwise, the requests sent from the interface will not be functional.</b></p>
