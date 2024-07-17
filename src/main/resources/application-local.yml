@@ -14,6 +14,12 @@ spring:
       max-create-connection-time: 2s
       initial-size: 5
       max-size: 10
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2MB
+      max-file-size: 5MB
+      max-request-size: 10MB
 
 ## Actuator ##
 management:
@@ -25,6 +31,28 @@ management:
 ## Admin Key ##
 admin:
   key: ${adminSignUpKey}
+
+## FILE ##
+file:
+  allowed-formats: png, jpeg, jpg, mp3, mpeg, mp4, pdf, csv
+  default-image-height: 2000
+  default-image-width: 2000
+
+## AMAZON ##
+cloud:
+  aws:
+    credentials:
+      accessKey: ${awsAccessKey}
+      secretKey: ${awsSecretKey}
+    region:
+      static: ${awsRegion}
+    stack:
+      auto: false
+aws:
+  s3:
+    bucketName: ${awsS3BucketName}
+  cdn:
+    path: ${awsCdnPath}
 
 ## OpenApi Settings ##
 springdoc:

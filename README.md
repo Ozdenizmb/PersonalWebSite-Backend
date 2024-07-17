@@ -13,6 +13,12 @@
 <h3>2. Create a file named gradle.properties</h3>
 
 <p>adminSignUpKey=&lt;YOUR_ADMIN_SIGN_UP_KEY&gt;</p>
+<br>
+<p>awsAccessKey=&lt;YOUR_AWS_ACCESS_KEY&gt;</p>
+<p>awsSecretKey=&lt;YOUR_AWS_SECRET_KEY&gt;</p>
+<p>awsS3BucketName=&lt;YOUR_AWS_BUCKET_NAME&gt;</p>
+<p>awsRegion=&lt;YOUR_AWS_REGION_NAME&gt;</p>
+<p>awsCdnPath=&lt;YOUR_AWS_CDN_PATH&gt;</p>
 
 <p><i>You can write any key you want randomly. However, you must not forget this key information. If you forget this information, you won't be able to register as an admin.</i></p>
 <br><br><br>
