@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -20,13 +21,13 @@ public class UserController implements UserApi {
     private final UserService service;
 
     @Override
-    public ResponseEntity<UserDto> signUpUser(UserCreateDto userCreateDto) {
-        return ResponseEntity.ok(service.signUpUser(userCreateDto));
+    public ResponseEntity<UserDto> signUpUser(UserCreateDto userCreateDto, MultipartFile file) {
+        return ResponseEntity.ok(service.signUpUser(userCreateDto, file));
     }
 
     @Override
-    public ResponseEntity<UserDto> signUpAdmin(String key, UserCreateDto userCreateDto) {
-        return ResponseEntity.ok(service.signUpAdmin(key, userCreateDto));
+    public ResponseEntity<UserDto> signUpAdmin(String key, UserCreateDto userCreateDto, MultipartFile file) {
+        return ResponseEntity.ok(service.signUpAdmin(key, userCreateDto, file));
     }
 
     @Override
@@ -60,13 +61,13 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> updateUser(UUID id, UserUpdateDto userUpdateDto) {
-        return ResponseEntity.ok(service.updateUser(id, userUpdateDto));
+    public ResponseEntity<UserDto> updateUser(UUID id, UserUpdateDto userUpdateDto, MultipartFile file) {
+        return ResponseEntity.ok(service.updateUser(id, userUpdateDto, file));
     }
 
     @Override
-    public ResponseEntity<UserDto> updateAdmin(String key, UUID id, UserUpdateDto userUpdateDto) {
-        return ResponseEntity.ok(service.updateAdmin(key, id, userUpdateDto));
+    public ResponseEntity<UserDto> updateAdmin(String key, UUID id, UserUpdateDto userUpdateDto, MultipartFile file) {
+        return ResponseEntity.ok(service.updateAdmin(key, id, userUpdateDto, file));
     }
 
     @Override

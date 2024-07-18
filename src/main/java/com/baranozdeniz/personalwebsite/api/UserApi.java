@@ -16,6 +16,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -36,8 +37,8 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PostMapping(value = "/signup/user", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<UserDto> signUpUser(@RequestBody @Valid UserCreateDto userCreateDto);
+    @PostMapping(value = "/signup/user", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
+    ResponseEntity<UserDto> signUpUser(@RequestPart @Valid UserCreateDto userCreateDto, @RequestPart(required = false) MultipartFile file);
 
     @Operation(operationId = "signUpAdmin", summary = "Sign up admin.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Boolean.class))),
@@ -50,8 +51,8 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PostMapping(value = "/signup/admin", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<UserDto> signUpAdmin(@RequestHeader String key, @RequestBody @Valid UserCreateDto userCreateDto);
+    @PostMapping(value = "/signup/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    ResponseEntity<UserDto> signUpAdmin(@RequestHeader String key, @RequestPart @Valid UserCreateDto userCreateDto, @RequestPart(required = false) MultipartFile file);
 
     @Operation(operationId = "getUserWithEmail", summary = "Get user with email.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
@@ -141,8 +142,8 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PutMapping(value = "/update/user/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @RequestBody @Valid UserUpdateDto userUpdateDto);
+    @PutMapping(value = "/update/user/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @RequestPart @Valid UserUpdateDto userUpdateDto, @RequestPart(required = false) MultipartFile file);
 
     @Operation(operationId = "updateAdmin", summary = "Update admin.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
@@ -154,8 +155,8 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PutMapping(value = "/update/admin/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UserDto> updateAdmin(@RequestHeader String key, @PathVariable UUID id, @RequestBody @Valid UserUpdateDto userUpdateDto);
+    @PutMapping(value = "/update/admin/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDto> updateAdmin(@RequestHeader String key, @PathVariable UUID id, @RequestPart @Valid UserUpdateDto userUpdateDto, @RequestPart(required = false) MultipartFile file);
 
     @Operation(operationId = "deleteUser", summary = "Delete user.")
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content"),

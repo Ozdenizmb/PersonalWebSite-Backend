@@ -11,6 +11,7 @@ public record UserDto(
         String email,
         String imageUrl,
         String biography,
+        String phoneNumber,
         String profession,
         LocalDate birthday,
         String role,

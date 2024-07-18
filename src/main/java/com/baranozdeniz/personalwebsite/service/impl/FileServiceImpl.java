@@ -10,7 +10,6 @@ import com.baranozdeniz.personalwebsite.service.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -90,7 +89,7 @@ public class FileServiceImpl implements FileService {
 
         FileEntity responseFile = repository.save(fileEntity);
 
-        return responseFile.getCdnPath() + responseFile.getName();
+        return responseFile.getCdnPath() + "/" + responseFile.getName();
     }
 
     @Override
@@ -119,14 +118,15 @@ public class FileServiceImpl implements FileService {
     @Override
     public Boolean deleteFile(String fileName) {
 
-        Optional<FileEntity> response = repository.findByName(fileName);
+        String splitFileName = fileName.split(cdnPath + "/")[1];
+        Optional<FileEntity> response = repository.findByName(splitFileName);
 
         if(response.isPresent()){
             FileEntity existFile = response.get();
             repository.delete(existFile);
 
             try {
-                amazonS3Client.deleteObject(bucketName, fileName);
+                amazonS3Client.deleteObject(bucketName, splitFileName);
             } catch (Exception e) {
                 throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_DELETE);
             }

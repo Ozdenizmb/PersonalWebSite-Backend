@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS util_sch.user_data
     password                    VARCHAR NOT NULL,
     image_url                   VARCHAR UNIQUE,
     biography                   VARCHAR,
+    phone_number                VARCHAR,
     profession                  VARCHAR,
     birthday                    DATE,
     role                        VARCHAR NOT NULL,

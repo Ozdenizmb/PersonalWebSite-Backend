@@ -11,8 +11,8 @@ public record UserUpdateDto(
         String lastName,
         @NotNull
         String password,
-        String imageUrl,
         String biography,
+        String phoneNumber,
         String profession,
         LocalDate birthday
 ) {

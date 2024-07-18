@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -27,24 +28,31 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository repository;
     private final UserMapper mapper;
+    private final FileServiceImpl fileService;
 
     @Value("${admin.key}")
     private String adminKey;
 
     @Override
-    public UserDto signUpUser(UserCreateDto userCreateDto) {
+    public UserDto signUpUser(UserCreateDto userCreateDto, MultipartFile file) {
         User user = new User();
         BeanUtils.copyProperties(userCreateDto, user);
+        if(file != null && !file.isEmpty()) {
+            user.setImageUrl(fileService.uploadFile(file));
+        }
         user.setRole("USER");
 
         return mapper.toDto(repository.save(user));
     }
 
     @Override
-    public UserDto signUpAdmin(String key, UserCreateDto userCreateDto) {
+    public UserDto signUpAdmin(String key, UserCreateDto userCreateDto, MultipartFile file) {
         if(adminKey.equals(key)) {
             User user = new User();
             BeanUtils.copyProperties(userCreateDto, user);
+            if(file != null && !file.isEmpty()) {
+                user.setImageUrl(fileService.uploadFile(file));
+            }
             user.setRole("ADMIN");
 
             return mapper.toDto(repository.save(user));
@@ -121,7 +129,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto updateUser(UUID id, UserUpdateDto userUpdateDto) {
+    public UserDto updateUser(UUID id, UserUpdateDto userUpdateDto, MultipartFile file) {
         Optional<User> responseUser = repository.findById(id);
 
         if(responseUser.isEmpty() || responseUser.get().getRole().equals("ADMIN")) {
@@ -131,11 +139,21 @@ public class UserServiceImpl implements UserService {
         User existUser = responseUser.get();
         BeanUtils.copyProperties(userUpdateDto, existUser);
 
+        if(file != null && !file.isEmpty()) {
+            String currentImageUrl = existUser.getImageUrl();
+
+            if(currentImageUrl != null && !currentImageUrl.isEmpty()) {
+                fileService.deleteFile(existUser.getImageUrl());
+            }
+            String newFileName = fileService.uploadFile(file);
+            existUser.setImageUrl(newFileName);
+        }
+
         return mapper.toDto(repository.save(existUser));
     }
 
     @Override
-    public UserDto updateAdmin(String key, UUID id, UserUpdateDto userUpdateDto) {
+    public UserDto updateAdmin(String key, UUID id, UserUpdateDto userUpdateDto, MultipartFile file) {
         if(adminKey.equals(key)) {
             Optional<User> responseUser = repository.findById(id);
 
@@ -145,6 +163,16 @@ public class UserServiceImpl implements UserService {
 
             User existUser = responseUser.get();
             BeanUtils.copyProperties(userUpdateDto, existUser);
+
+            if(file != null && !file.isEmpty()) {
+                String currentImageUrl = existUser.getImageUrl();
+
+                if(currentImageUrl != null && !currentImageUrl.isEmpty()) {
+                    fileService.deleteFile(existUser.getImageUrl());
+                }
+                String newFileName = fileService.uploadFile(file);
+                existUser.setImageUrl(newFileName);
+            }
 
             return mapper.toDto(repository.save(existUser));
         }
@@ -161,7 +189,9 @@ public class UserServiceImpl implements UserService {
             throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
         }
 
-        repository.delete(responseUser.get());
+        User existUser = responseUser.get();
+        repository.delete(existUser);
+        fileService.deleteFile(existUser.getImageUrl());
 
         return true;
     }
@@ -175,7 +205,9 @@ public class UserServiceImpl implements UserService {
                 throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.ADMIN_NOT_FOUND);
             }
 
-            repository.delete(responseUser.get());
+            User existUser = responseUser.get();
+            repository.delete(existUser);
+            fileService.deleteFile(existUser.getImageUrl());
 
             return true;
         }

@@ -32,6 +32,8 @@ public class User extends BaseEntity {
     private String imageUrl;
     @Column(name = "biography")
     private String biography;
+    @Column(name = "phone_number")
+    private String phoneNumber;
     @Column(name = "profession")
     private String profession;
     @Column(name = "birthday")
