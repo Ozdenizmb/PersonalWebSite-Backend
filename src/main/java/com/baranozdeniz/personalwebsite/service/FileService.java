@@ -8,6 +8,6 @@ public interface FileService {
 
     String uploadFile(MultipartFile file);
     List<String> uploadFiles(List<MultipartFile> files);
-    Boolean deleteFile(String fileName);
+    void deleteFile(String fileName);
 
 }

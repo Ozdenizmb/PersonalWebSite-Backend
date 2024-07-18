@@ -26,4 +26,6 @@ public class ErrorMessages {
 
     public static final String UNSUPPORTED_FILE_TYPE = "Unsupported file. Only PNG, JPEG, JPG, MP3, MP4, PDF and CSV supported";
 
+    public static final String EMAIL_NOT_FOUND = "Email Not Found!";
+
 }

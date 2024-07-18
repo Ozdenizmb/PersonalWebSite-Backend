@@ -116,7 +116,7 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public Boolean deleteFile(String fileName) {
+    public void deleteFile(String fileName) {
 
         String splitFileName = fileName.split(cdnPath + "/")[1];
         Optional<FileEntity> response = repository.findByName(splitFileName);
@@ -131,7 +131,6 @@ public class FileServiceImpl implements FileService {
                 throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_DELETE);
             }
 
-            return true;
         }
         else {
             throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.FILE_NOT_FOUND);
