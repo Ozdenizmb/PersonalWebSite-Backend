@@ -19,6 +19,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -32,6 +34,8 @@ public class UserServiceImpl implements UserService {
 
     @Value("${admin.key}")
     private String adminKey;
+    @Value("${file.allowed-formats}")
+    private String[] allowedFormats;
 
     @Override
     public UserDto signUpUser(UserCreateDto userCreateDto, MultipartFile file) {
@@ -42,7 +46,14 @@ public class UserServiceImpl implements UserService {
         }
         user.setRole("USER");
 
-        return mapper.toDto(repository.save(user));
+        try{
+            return mapper.toDto(repository.save(user));
+        } catch (Exception e) {
+            if(user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
+                fileService.deleteFile(user.getImageUrl());
+            }
+            throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+        }
     }
 
     @Override
@@ -55,7 +66,14 @@ public class UserServiceImpl implements UserService {
             }
             user.setRole("ADMIN");
 
-            return mapper.toDto(repository.save(user));
+            try{
+                return mapper.toDto(repository.save(user));
+            } catch (Exception e) {
+                if(user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
+                    fileService.deleteFile(user.getImageUrl());
+                }
+                throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
         }
         else {
             throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, ErrorMessages.WRONG_ADMIN_KEY);
@@ -140,10 +158,15 @@ public class UserServiceImpl implements UserService {
         BeanUtils.copyProperties(userUpdateDto, existUser);
 
         if(file != null && !file.isEmpty()) {
+            String fileType = Objects.requireNonNull(file.getContentType()).split("/")[1];
+            if(!Arrays.asList(allowedFormats).contains(fileType)) {
+                throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, ErrorMessages.UNSUPPORTED_FILE_TYPE);
+            }
+
             String currentImageUrl = existUser.getImageUrl();
 
             if(currentImageUrl != null && !currentImageUrl.isEmpty()) {
-                fileService.deleteFile(existUser.getImageUrl());
+                fileService.deleteFile(currentImageUrl);
             }
             String newFileName = fileService.uploadFile(file);
             existUser.setImageUrl(newFileName);
@@ -165,10 +188,15 @@ public class UserServiceImpl implements UserService {
             BeanUtils.copyProperties(userUpdateDto, existUser);
 
             if(file != null && !file.isEmpty()) {
+                String fileType = Objects.requireNonNull(file.getContentType()).split("/")[1];
+                if(!Arrays.asList(allowedFormats).contains(fileType)) {
+                    throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, ErrorMessages.UNSUPPORTED_FILE_TYPE);
+                }
+
                 String currentImageUrl = existUser.getImageUrl();
 
                 if(currentImageUrl != null && !currentImageUrl.isEmpty()) {
-                    fileService.deleteFile(existUser.getImageUrl());
+                    fileService.deleteFile(currentImageUrl);
                 }
                 String newFileName = fileService.uploadFile(file);
                 existUser.setImageUrl(newFileName);

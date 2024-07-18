@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ import java.util.UUID;
 @Validated
 public interface ProjectApi {
 
-    @Operation(operationId = "createProject", summary = "Create project.")
+    @Operation(operationId = "createProject", summary = "Create project. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Boolean.class))),
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = ProjectCreateDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -34,8 +35,8 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
-    ResponseEntity<ProjectDto> createProject(@RequestBody @Valid ProjectCreateDto projectCreateDto);
+    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    ResponseEntity<ProjectDto> createProject(@RequestPart @Valid ProjectCreateDto projectCreateDto, @RequestPart MultipartFile file);
 
     @Operation(operationId = "getProjectWithId", summary = "Get project with id.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = ProjectDto.class))),
@@ -76,7 +77,7 @@ public interface ProjectApi {
     @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<ProjectDto>> getProjects(Pageable pageable);
 
-    @Operation(operationId = "updateProject", summary = "Update project.")
+    @Operation(operationId = "updateProject", summary = "Update project. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = ProjectDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -86,8 +87,8 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PutMapping(value = "/update/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<ProjectDto> updateProject(@PathVariable UUID id, @RequestBody @Valid ProjectUpdateDto projectUpdateDto);
+    @PutMapping(value = "/update/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<ProjectDto> updateProject(@PathVariable UUID id, @RequestPart @Valid ProjectUpdateDto projectUpdateDto, @RequestPart(required = false) MultipartFile file);
 
     @Operation(operationId = "deleteProject", summary = "Delete project.")
     @ApiResponses(value = {@ApiResponse(responseCode = "204", description = "No Content"),

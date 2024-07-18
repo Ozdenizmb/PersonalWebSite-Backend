@@ -10,8 +10,6 @@ public record ProjectUpdateDto(
         @NotNull
         String url,
         @NotNull
-        String technologies,
-        @NotNull
-        String imageUrl
+        String technologies
 ) {
 }

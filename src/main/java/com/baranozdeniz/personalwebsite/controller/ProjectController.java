@@ -10,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.UUID;
 
@@ -20,8 +21,8 @@ public class ProjectController implements ProjectApi {
     private final ProjectService service;
 
     @Override
-    public ResponseEntity<ProjectDto> createProject(ProjectCreateDto projectCreateDto) {
-        return ResponseEntity.ok(service.createProject(projectCreateDto));
+    public ResponseEntity<ProjectDto> createProject(ProjectCreateDto projectCreateDto, MultipartFile file) {
+        return ResponseEntity.ok(service.createProject(projectCreateDto, file));
     }
 
     @Override
@@ -40,8 +41,8 @@ public class ProjectController implements ProjectApi {
     }
 
     @Override
-    public ResponseEntity<ProjectDto> updateProject(UUID id, ProjectUpdateDto projectUpdateDto) {
-        return ResponseEntity.ok(service.updateProject(id, projectUpdateDto));
+    public ResponseEntity<ProjectDto> updateProject(UUID id, ProjectUpdateDto projectUpdateDto, MultipartFile file) {
+        return ResponseEntity.ok(service.updateProject(id, projectUpdateDto, file));
     }
 
     @Override

@@ -26,7 +26,7 @@ import java.util.UUID;
 @Validated
 public interface UserApi {
 
-    @Operation(operationId = "signUpUser", summary = "Sign up user.")
+    @Operation(operationId = "signUpUser", summary = "Sign up user. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Boolean.class))),
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = UserCreateDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -40,7 +40,7 @@ public interface UserApi {
     @PostMapping(value = "/signup/user", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE}, produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<UserDto> signUpUser(@RequestPart @Valid UserCreateDto userCreateDto, @RequestPart(required = false) MultipartFile file);
 
-    @Operation(operationId = "signUpAdmin", summary = "Sign up admin.")
+    @Operation(operationId = "signUpAdmin", summary = "Sign up admin. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Boolean.class))),
             @ApiResponse(responseCode = "201", description = "Created", content = @Content(schema = @Schema(implementation = UserCreateDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -132,7 +132,7 @@ public interface UserApi {
     @GetMapping(value = "/get/admin", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<UserDto>> getAllAdmins(Pageable pageable);
 
-    @Operation(operationId = "updateUser", summary = "Update user.")
+    @Operation(operationId = "updateUser", summary = "Update user. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -145,7 +145,7 @@ public interface UserApi {
     @PutMapping(value = "/update/user/{id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<UserDto> updateUser(@PathVariable UUID id, @RequestPart @Valid UserUpdateDto userUpdateDto, @RequestPart(required = false) MultipartFile file);
 
-    @Operation(operationId = "updateAdmin", summary = "Update admin.")
+    @Operation(operationId = "updateAdmin", summary = "Update admin. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
