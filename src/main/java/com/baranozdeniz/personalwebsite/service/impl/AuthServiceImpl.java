@@ -7,11 +7,13 @@ import com.baranozdeniz.personalwebsite.repository.UserRepository;
 import com.baranozdeniz.personalwebsite.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -48,4 +50,15 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    @Override
+    public Boolean verifyUserIdMatchesAuthenticatedUser(UUID id) {
+        String authenticatedUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        Optional<User> authenticatedUserOpt = userRepository.findByEmail(authenticatedUserEmail);
+        if (authenticatedUserOpt.isEmpty()) {
+            return false;
+        }
+
+        User authenticatedUser = authenticatedUserOpt.get();
+        return authenticatedUser.getId().equals(id) || authenticatedUser.getRole().equals("ADMIN");
+    }
 }

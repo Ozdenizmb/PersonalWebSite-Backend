@@ -13,6 +13,8 @@ public interface UserService {
 
     UserDto signUpUser(UserCreateDto userCreateDto, MultipartFile file);
     UserDto signUpAdmin(String key, UserCreateDto userCreateDto, MultipartFile file);
+    UserDto loginUser(String email, String password);
+    UserDto loginAdmin(String key, String email, String password);
     UserDto getUserWithEmail(String email);
     UserDto getUserWithId(UUID id);
     Page<UserDto> getAllUsers(Pageable pageable);

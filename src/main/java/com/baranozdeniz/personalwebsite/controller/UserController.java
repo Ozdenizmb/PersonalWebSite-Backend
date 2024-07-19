@@ -31,6 +31,16 @@ public class UserController implements UserApi {
     }
 
     @Override
+    public ResponseEntity<UserDto> loginUser(String email, String password) {
+        return ResponseEntity.ok(service.loginUser(email, password));
+    }
+
+    @Override
+    public ResponseEntity<UserDto> loginAdmin(String key, String email, String password) {
+        return ResponseEntity.ok(service.loginAdmin(key, email, password));
+    }
+
+    @Override
     public ResponseEntity<UserDto> getUserWithEmail(String email) {
         return ResponseEntity.ok(service.getUserWithEmail(email));
     }

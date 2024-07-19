@@ -9,6 +9,7 @@ import com.baranozdeniz.personalwebsite.mapper.CommentMapper;
 import com.baranozdeniz.personalwebsite.mapper.PageMapperHelper;
 import com.baranozdeniz.personalwebsite.model.Comment;
 import com.baranozdeniz.personalwebsite.repository.CommentRepository;
+import com.baranozdeniz.personalwebsite.service.AuthService;
 import com.baranozdeniz.personalwebsite.service.CommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -26,9 +27,14 @@ public class CommentServiceImpl implements CommentService {
 
     private final CommentRepository repository;
     private final CommentMapper mapper;
+    private final AuthService authService;
 
     @Override
     public CommentDto createComment(CommentCreateDto commentCreateDto) {
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(commentCreateDto.userId())) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         Comment comment = new Comment();
         BeanUtils.copyProperties(commentCreateDto, comment);
 
@@ -77,6 +83,11 @@ public class CommentServiceImpl implements CommentService {
         }
 
         Comment existComment = responseComment.get();
+
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(existComment.getUserId())) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         BeanUtils.copyProperties(commentUpdateDto, existComment);
 
         return mapper.toDto(repository.save(existComment));
@@ -90,7 +101,13 @@ public class CommentServiceImpl implements CommentService {
             throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.COMMENT_NOT_FOUND);
         }
 
-        repository.delete(responseComment.get());
+        Comment existComment = responseComment.get();
+
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(existComment.getUserId())) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
+        repository.delete(existComment);
 
         return true;
     }

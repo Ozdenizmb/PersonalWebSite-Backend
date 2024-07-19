@@ -7,6 +7,7 @@ import com.baranozdeniz.personalwebsite.exception.PwsException;
 import com.baranozdeniz.personalwebsite.mapper.LikeMapper;
 import com.baranozdeniz.personalwebsite.model.Like;
 import com.baranozdeniz.personalwebsite.repository.LikeRepository;
+import com.baranozdeniz.personalwebsite.service.AuthService;
 import com.baranozdeniz.personalwebsite.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -23,9 +24,14 @@ public class LikeServiceImpl implements LikeService {
 
     private final LikeRepository repository;
     private final LikeMapper mapper;
+    private final AuthService authService;
 
     @Override
     public LikeDto addLike(LikeCreateDto likeCreateDto) {
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(likeCreateDto.userId())) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         Like like = new Like();
         BeanUtils.copyProperties(likeCreateDto, like);
 
@@ -40,12 +46,20 @@ public class LikeServiceImpl implements LikeService {
 
     @Override
     public Boolean didILikeIt(UUID userId, UUID projectId) {
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(userId)) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         Optional<Like> responseLike = repository.findByUserIdAndProjectId(userId, projectId);
         return responseLike.isPresent();
     }
 
     @Override
     public Boolean deleteLike(UUID userId, UUID projectId) {
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(userId)) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         Optional<Like> responseLike = repository.findByUserIdAndProjectId(userId, projectId);
 
         if(responseLike.isEmpty()) {

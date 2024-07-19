@@ -33,15 +33,40 @@ public class SecurityConfig {
     private static final String[] PERMIT_ALL_ENDPOINTS = {
             "/api/v1/users/signup/user",
             "/api/v1/users/signup/admin",
-            "/api/v1/users/get/user"
+            "/api/v1/users/login/user/{email}",
+            "/api/v1/users/login/admin/{email}",
+            "/api/v1/users/get/user",
+            "/api/v1/users/get/user/id/{id}",
+            "/api/v1/users/get/user/email/{email}",
+            "/api/v1/users/get/admin",
+            "/api/v1/users/get/admin/id/{id}",
+            "/api/v1/users/get/admin/email/{email}",
+            "/api/v1/projects/get",
+            "/api/v1/projects/get/id/{id}",
+            "/api/v1/projects/get/name/{name}",
+            "/api/v1/likes/get/{projectId}",
+            "/api/v1/comments/get/{id}",
+            "/api/v1/comments/get/project/{projectId}",
+            "/api/v1/comments/get/user/{userId}"
     };
 
     private static final String[] USER_ENDPOINTS = {
-            "ComingSoon"
+            "/api/v1/users/update/user/{id}",
+            "/api/v1/users/delete/user/{id}",
+            "/api/v1/likes/add",
+            "/api/v1/likes/didILikeIt",
+            "/api/v1/likes/delete",
+            "/api/v1/comments/create",
+            "/api/v1/comments/update/{id}",
+            "/api/v1/comments/delete/{id}"
     };
 
     private static final String[] ADMIN_ENDPOINTS = {
-            "ComingSoon"
+            "/api/v1/users/update/admin/{id}",
+            "/api/v1/users/delete/admin/{id}",
+            "/api/v1/projects/create",
+            "/api/v1/projects/update/{id}",
+            "/api/v1/projects/delete/{id}"
     };
 
     @Bean
@@ -51,7 +76,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry ->{
                     registry.requestMatchers(AUTH_WHITELIST).permitAll();
                     registry.requestMatchers(PERMIT_ALL_ENDPOINTS).permitAll();
-                    registry.requestMatchers(USER_ENDPOINTS).hasRole("USER");
+                    registry.requestMatchers(USER_ENDPOINTS).hasAnyRole("USER", "ADMIN");
                     registry.requestMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN");
                     registry.anyRequest().authenticated();
                 })

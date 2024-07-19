@@ -34,7 +34,7 @@ public interface CommentApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/create", consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<CommentDto> createComment(@RequestBody @Valid CommentCreateDto commentCreateDto);
 
     @Operation(operationId = "getComment", summary = "Get comment.")

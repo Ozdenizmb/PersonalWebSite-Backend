@@ -35,7 +35,7 @@ public interface ProjectApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
+    @PostMapping(value = "/create", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<ProjectDto> createProject(@RequestPart @Valid ProjectCreateDto projectCreateDto, @RequestPart MultipartFile file);
 
     @Operation(operationId = "getProjectWithId", summary = "Get project with id.")

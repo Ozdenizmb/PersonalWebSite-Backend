@@ -9,6 +9,7 @@ import com.baranozdeniz.personalwebsite.mapper.PageMapperHelper;
 import com.baranozdeniz.personalwebsite.mapper.UserMapper;
 import com.baranozdeniz.personalwebsite.model.User;
 import com.baranozdeniz.personalwebsite.repository.UserRepository;
+import com.baranozdeniz.personalwebsite.service.AuthService;
 import com.baranozdeniz.personalwebsite.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
@@ -16,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -31,6 +33,8 @@ public class UserServiceImpl implements UserService {
     private final UserRepository repository;
     private final UserMapper mapper;
     private final FileServiceImpl fileService;
+    private final PasswordEncoder passwordEncoder;
+    private final AuthService authService;
 
     @Value("${admin.key}")
     private String adminKey;
@@ -41,6 +45,7 @@ public class UserServiceImpl implements UserService {
     public UserDto signUpUser(UserCreateDto userCreateDto, MultipartFile file) {
         User user = new User();
         BeanUtils.copyProperties(userCreateDto, user);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         if(file != null && !file.isEmpty()) {
             user.setImageUrl(fileService.uploadFile(file));
         }
@@ -61,6 +66,7 @@ public class UserServiceImpl implements UserService {
         if(adminKey.equals(key)) {
             User user = new User();
             BeanUtils.copyProperties(userCreateDto, user);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             if(file != null && !file.isEmpty()) {
                 user.setImageUrl(fileService.uploadFile(file));
             }
@@ -73,6 +79,51 @@ public class UserServiceImpl implements UserService {
                     fileService.deleteFile(user.getImageUrl());
                 }
                 throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+            }
+        }
+        else {
+            throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, ErrorMessages.WRONG_ADMIN_KEY);
+        }
+    }
+
+    @Override
+    public UserDto loginUser(String email, String password) {
+        Optional<User> responseUser = repository.findByEmail(email);
+
+        if(responseUser.isPresent() && !responseUser.get().getRole().equals("ADMIN")) {
+            User existUser = responseUser.get();
+
+            if(passwordEncoder.matches(password, existUser.getPassword())) {
+                return mapper.toDto(existUser);
+            }
+            else {
+                throw PwsException.withStatusAndMessage(HttpStatus.UNAUTHORIZED, ErrorMessages.INCORRECT_LOGIN);
+            }
+
+        }
+        else {
+            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
+        }
+    }
+
+    @Override
+    public UserDto loginAdmin(String key, String email, String password) {
+        if(adminKey.equals(key)) {
+            Optional<User> responseUser = repository.findByEmail(email);
+
+            if(responseUser.isPresent() && !responseUser.get().getRole().equals("ADMIN")) {
+                User existUser = responseUser.get();
+
+                if(passwordEncoder.matches(password, existUser.getPassword())) {
+                    return mapper.toDto(existUser);
+                }
+                else {
+                    throw PwsException.withStatusAndMessage(HttpStatus.UNAUTHORIZED, ErrorMessages.INCORRECT_LOGIN);
+                }
+
+            }
+            else {
+                throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
             }
         }
         else {
@@ -148,6 +199,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto updateUser(UUID id, UserUpdateDto userUpdateDto, MultipartFile file) {
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(id)) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         Optional<User> responseUser = repository.findById(id);
 
         if(responseUser.isEmpty() || responseUser.get().getRole().equals("ADMIN")) {
@@ -156,6 +211,7 @@ public class UserServiceImpl implements UserService {
 
         User existUser = responseUser.get();
         BeanUtils.copyProperties(userUpdateDto, existUser);
+        existUser.setPassword(passwordEncoder.encode(existUser.getPassword()));
 
         if(file != null && !file.isEmpty()) {
             String fileType = Objects.requireNonNull(file.getContentType()).split("/")[1];
@@ -186,6 +242,7 @@ public class UserServiceImpl implements UserService {
 
             User existUser = responseUser.get();
             BeanUtils.copyProperties(userUpdateDto, existUser);
+            existUser.setPassword(passwordEncoder.encode(existUser.getPassword()));
 
             if(file != null && !file.isEmpty()) {
                 String fileType = Objects.requireNonNull(file.getContentType()).split("/")[1];
@@ -211,6 +268,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Boolean deleteUser(UUID id) {
+        if(!authService.verifyUserIdMatchesAuthenticatedUser(id)) {
+            throw PwsException.withStatusAndMessage(HttpStatus.FORBIDDEN, ErrorMessages.UNAUTHORIZED);
+        }
+
         Optional<User> responseUser = repository.findById(id);
 
         if(responseUser.isEmpty() || responseUser.get().getRole().equals("ADMIN")) {

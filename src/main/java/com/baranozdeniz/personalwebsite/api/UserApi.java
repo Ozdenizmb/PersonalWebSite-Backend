@@ -54,6 +54,32 @@ public interface UserApi {
     @PostMapping(value = "/signup/admin", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = {MediaType.APPLICATION_JSON_VALUE})
     ResponseEntity<UserDto> signUpAdmin(@RequestHeader String key, @RequestPart @Valid UserCreateDto userCreateDto, @RequestPart(required = false) MultipartFile file);
 
+    @Operation(operationId = "loginUser", summary = "Login user. (If correct values are sent to the Login method on the frontend, automatically perform the authorization process immediately afterward. /{AuthService})")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
+    @GetMapping(value = "/login/user/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDto> loginUser(@PathVariable String email, @RequestParam String password);
+
+    @Operation(operationId = "loginAdmin", summary = "Login admin. (If correct values are sent to the Login method on the frontend, automatically perform the authorization process immediately afterward. /{AuthService})")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
+    @GetMapping(value = "/login/admin/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDto> loginAdmin(@RequestHeader String key, @PathVariable String email, @RequestParam String password);
+
     @Operation(operationId = "getUserWithEmail", summary = "Get user with email.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
