@@ -24,3 +24,6 @@
 <p><i>For adminSignUpKey, you can randomly write the key you want. However, you must not forget this key information. If you forget this information, you won't be able to register as an admin.</i></p>
 <br>
 <p><b>For the interface (FrontEnd) to be usable, the Backend must be running. Otherwise, the requests sent from the interface will not be functional.</b></p>
+<br>
+<p><i>Access the project's front-end from the following link:</i></p>
+<p>https://github.com/Ozdenizmb/PersonalWebSite-Frontend</p>

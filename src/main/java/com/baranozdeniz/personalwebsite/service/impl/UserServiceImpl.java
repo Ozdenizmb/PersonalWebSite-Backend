@@ -102,7 +102,7 @@ public class UserServiceImpl implements UserService {
 
         }
         else {
-            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
+            throw PwsException.withStatusAndMessage(HttpStatus.UNAUTHORIZED, ErrorMessages.INCORRECT_LOGIN);
         }
     }
 
@@ -123,7 +123,7 @@ public class UserServiceImpl implements UserService {
 
             }
             else {
-                throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
+                throw PwsException.withStatusAndMessage(HttpStatus.UNAUTHORIZED, ErrorMessages.INCORRECT_LOGIN);
             }
         }
         else {
