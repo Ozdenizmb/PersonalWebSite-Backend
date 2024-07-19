@@ -111,7 +111,7 @@ public class UserServiceImpl implements UserService {
         if(adminKey.equals(key)) {
             Optional<User> responseUser = repository.findByEmail(email);
 
-            if(responseUser.isPresent() && !responseUser.get().getRole().equals("ADMIN")) {
+            if(responseUser.isPresent() && !responseUser.get().getRole().equals("USER")) {
                 User existUser = responseUser.get();
 
                 if(passwordEncoder.matches(password, existUser.getPassword())) {
