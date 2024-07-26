@@ -1,5 +1,6 @@
 package com.baranozdeniz.personalwebsite.dto;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ public record UserCreateDto(
         @NotNull
         String lastName,
         @NotNull
+        @Email(message = "Invalid email format.")
         String email,
         @NotNull
         String password,
