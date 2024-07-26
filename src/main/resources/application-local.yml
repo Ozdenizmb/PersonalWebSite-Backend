@@ -34,7 +34,8 @@ admin:
 
 ## FILE ##
 file:
-  allowed-formats: png, jpeg, jpg, mp3, mpeg, mp4, pdf, csv
+  allowed-formats-for-user: png, jpeg, jpg
+  allowed-formats-for-project: png, jpeg, jpg, mp3, mpeg, mp4, pdf, csv
   default-image-height: 2000
   default-image-width: 2000
 

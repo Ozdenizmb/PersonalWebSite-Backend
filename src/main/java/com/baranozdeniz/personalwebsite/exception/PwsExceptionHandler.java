@@ -3,6 +3,7 @@ package com.baranozdeniz.personalwebsite.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,20 @@ import java.util.Objects;
 public class PwsExceptionHandler extends ResponseEntityExceptionHandler {
 
     private static final String TIMESTAMP = "timestamp";
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<Object> handleDataIntegrityViolation(DataIntegrityViolationException ex, WebRequest webRequest) {
+        String message = "Duplicate entry detected. Please use a different email."; // Kısa hata mesajı
+        HttpStatus httpStatus = HttpStatus.BAD_REQUEST; // İlgili HTTP durumu
+
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(httpStatus, message);
+        problemDetail.setInstance(URI.create(webRequest.getDescription(false)));
+        problemDetail.setTitle(ex.getClass().getSimpleName());
+        problemDetail.setStatus(httpStatus.value());
+        problemDetail.setProperty(TIMESTAMP, LocalDateTime.now());
+
+        return new ResponseEntity<>(problemDetail, httpStatus);
+    }
 
     @Override
     protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException exception, HttpHeaders headers, HttpStatusCode httpStatus, WebRequest webRequest) {

@@ -33,7 +33,7 @@ public class ProjectServiceImpl implements ProjectService {
     private final ProjectMapper mapper;
     private final FileService fileService;
 
-    @Value("${file.allowed-formats}")
+    @Value("${file.allowed-formats-for-project}")
     private String[] allowedFormats;
 
     @Override

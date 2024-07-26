@@ -38,7 +38,7 @@ public class UserServiceImpl implements UserService {
 
     @Value("${admin.key}")
     private String adminKey;
-    @Value("${file.allowed-formats}")
+    @Value("${file.allowed-formats-for-user}")
     private String[] allowedFormats;
 
     @Override
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             if(user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
                 fileService.deleteFile(user.getImageUrl());
             }
-            throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+            throw e;
         }
     }
 
@@ -78,7 +78,7 @@ public class UserServiceImpl implements UserService {
                 if(user.getImageUrl() != null && !user.getImageUrl().isEmpty()) {
                     fileService.deleteFile(user.getImageUrl());
                 }
-                throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, e.getMessage());
+                throw e;
             }
         }
         else {
@@ -228,7 +228,12 @@ public class UserServiceImpl implements UserService {
             existUser.setImageUrl(newFileName);
         }
 
-        return mapper.toDto(repository.save(existUser));
+        try {
+            return mapper.toDto(repository.save(existUser));
+        }
+         catch (Exception e) {
+            throw  e;
+         }
     }
 
     @Override
@@ -259,7 +264,12 @@ public class UserServiceImpl implements UserService {
                 existUser.setImageUrl(newFileName);
             }
 
-            return mapper.toDto(repository.save(existUser));
+            try {
+                return mapper.toDto(repository.save(existUser));
+            } catch (Exception e) {
+                throw  e;
+            }
+
         }
         else {
             throw PwsException.withStatusAndMessage(HttpStatus.BAD_REQUEST, ErrorMessages.WRONG_ADMIN_KEY);
@@ -279,7 +289,11 @@ public class UserServiceImpl implements UserService {
         }
 
         User existUser = responseUser.get();
-        repository.delete(existUser);
+        try {
+            repository.delete(existUser);
+        } catch (Exception e) {
+            throw e;
+        }
         fileService.deleteFile(existUser.getImageUrl());
 
         return true;
@@ -295,7 +309,11 @@ public class UserServiceImpl implements UserService {
             }
 
             User existUser = responseUser.get();
-            repository.delete(existUser);
+            try {
+                repository.delete(existUser);
+            } catch (Exception e) {
+                throw e;
+            }
             fileService.deleteFile(existUser.getImageUrl());
 
             return true;

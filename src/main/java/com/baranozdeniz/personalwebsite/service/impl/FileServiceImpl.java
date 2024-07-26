@@ -31,7 +31,7 @@ public class FileServiceImpl implements FileService {
     private final FileRepository repository;
     private final AmazonS3 amazonS3Client;
 
-    @Value("${file.allowed-formats}")
+    @Value("${file.allowed-formats-for-project}")
     private String[] allowedFormats;
     @Value("${file.default-image-height}")
     private int defaultImageHeight;
@@ -77,19 +77,20 @@ public class FileServiceImpl implements FileService {
 
             tempFile.delete();
 
+            FileEntity fileEntity = FileEntity.builder()
+                    .name(fileName)
+                    .type(file.getContentType())
+                    .cdnPath(cdnPath)
+                    .build();
+
+            FileEntity responseFile = repository.save(fileEntity);
+
+            return responseFile.getCdnPath() + "/" + responseFile.getName();
+
         } catch (IOException e) {
             throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_WRITE);
         }
 
-        FileEntity fileEntity = FileEntity.builder()
-                .name(fileName)
-                .type(file.getContentType())
-                .cdnPath(cdnPath)
-                .build();
-
-        FileEntity responseFile = repository.save(fileEntity);
-
-        return responseFile.getCdnPath() + "/" + responseFile.getName();
     }
 
     @Override
@@ -123,9 +124,9 @@ public class FileServiceImpl implements FileService {
 
         if(response.isPresent()){
             FileEntity existFile = response.get();
-            repository.delete(existFile);
 
             try {
+                repository.delete(existFile);
                 amazonS3Client.deleteObject(bucketName, splitFileName);
             } catch (Exception e) {
                 throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_DELETE);
