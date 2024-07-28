@@ -41,28 +41,18 @@ public class UserController implements UserApi {
     }
 
     @Override
-    public ResponseEntity<UserDto> getUserWithEmail(String email) {
-        return ResponseEntity.ok(service.getUserWithEmail(email));
+    public ResponseEntity<UserDto> getUserAndAdminWithEmail(String email) {
+        return ResponseEntity.ok(service.getUserAndAdminWithEmail(email));
     }
 
     @Override
-    public ResponseEntity<UserDto> getUserWithId(UUID id) {
-        return ResponseEntity.ok(service.getUserWithId(id));
+    public ResponseEntity<UserDto> getUserAndAdminWithId(UUID id) {
+        return ResponseEntity.ok(service.getUserAndAdminWithId(id));
     }
 
     @Override
     public ResponseEntity<Page<UserDto>> getAllUsers(Pageable pageable) {
         return ResponseEntity.ok(service.getAllUsers(pageable));
-    }
-
-    @Override
-    public ResponseEntity<UserDto> getAdminWithEmail(String email) {
-        return ResponseEntity.ok(service.getAdminWithEmail(email));
-    }
-
-    @Override
-    public ResponseEntity<UserDto> getAdminWithId(UUID id) {
-        return ResponseEntity.ok(service.getAdminWithId(id));
     }
 
     @Override

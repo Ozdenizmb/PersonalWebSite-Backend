@@ -15,11 +15,9 @@ public interface UserService {
     UserDto signUpAdmin(String key, UserCreateDto userCreateDto, MultipartFile file);
     UserDto loginUser(String email, String password);
     UserDto loginAdmin(String key, String email, String password);
-    UserDto getUserWithEmail(String email);
-    UserDto getUserWithId(UUID id);
+    UserDto getUserAndAdminWithEmail(String email);
+    UserDto getUserAndAdminWithId(UUID id);
     Page<UserDto> getAllUsers(Pageable pageable);
-    UserDto getAdminWithEmail(String email);
-    UserDto getAdminWithId(UUID id);
     Page<UserDto> getAllAdmins(Pageable pageable);
     UserDto updateUser(UUID id, UserUpdateDto userUpdateDto, MultipartFile file);
     UserDto updateAdmin(String key, UUID id, UserUpdateDto userUpdateDto, MultipartFile file);

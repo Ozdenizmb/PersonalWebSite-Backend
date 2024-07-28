@@ -132,22 +132,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDto getUserWithEmail(String email) {
+    public UserDto getUserAndAdminWithEmail(String email) {
         Optional<User> responseUser = repository.findByEmail(email);
 
-        if(responseUser.isEmpty() || responseUser.get().getRole().equals("ADMIN")) {
-            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
+        if(responseUser.isEmpty()) {
+            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_OR_ADMIN_NOT_FOUND);
         }
 
         return mapper.toDto(responseUser.get());
     }
 
     @Override
-    public UserDto getUserWithId(UUID id) {
+    public UserDto getUserAndAdminWithId(UUID id) {
         Optional<User> responseUser = repository.findById(id);
 
-        if(responseUser.isEmpty() || responseUser.get().getRole().equals("ADMIN")) {
-            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_NOT_FOUND);
+        if(responseUser.isEmpty()) {
+            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.USER_OR_ADMIN_NOT_FOUND);
         }
 
         return mapper.toDto(responseUser.get());
@@ -162,28 +162,6 @@ public class UserServiceImpl implements UserService {
         }
 
         return PageMapperHelper.mapEntityPageToDtoPage(responseUsers, mapper);
-    }
-
-    @Override
-    public UserDto getAdminWithEmail(String email) {
-        Optional<User> responseUser = repository.findByEmail(email);
-
-        if(responseUser.isEmpty() || responseUser.get().getRole().equals("USER")) {
-            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.ADMIN_NOT_FOUND);
-        }
-
-        return mapper.toDto(responseUser.get());
-    }
-
-    @Override
-    public UserDto getAdminWithId(UUID id) {
-        Optional<User> responseUser = repository.findById(id);
-
-        if(responseUser.isEmpty() || responseUser.get().getRole().equals("USER")) {
-            throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.ADMIN_NOT_FOUND);
-        }
-
-        return mapper.toDto(responseUser.get());
     }
 
     @Override

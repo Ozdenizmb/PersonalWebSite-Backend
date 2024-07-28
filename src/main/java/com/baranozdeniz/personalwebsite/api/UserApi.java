@@ -80,7 +80,7 @@ public interface UserApi {
     @GetMapping(value = "/login/admin/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<UserDto> loginAdmin(@RequestHeader String key, @PathVariable String email, @RequestParam String password);
 
-    @Operation(operationId = "getUserWithEmail", summary = "Get user with email.")
+    @Operation(operationId = "getUserAndAdminWithEmail", summary = "Get user and admin with email.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -90,10 +90,10 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @GetMapping(value = "/get/user/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UserDto> getUserWithEmail(@PathVariable String email);
+    @GetMapping(value = "/get/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDto> getUserAndAdminWithEmail(@PathVariable String email);
 
-    @Operation(operationId = "getUserWithId", summary = "Get user with id.")
+    @Operation(operationId = "getUserAndAdminWithId", summary = "Get user and admin with id.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
@@ -103,8 +103,8 @@ public interface UserApi {
             @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
-    @GetMapping(value = "/get/user/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UserDto> getUserWithId(@PathVariable UUID id);
+    @GetMapping(value = "/get/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<UserDto> getUserAndAdminWithId(@PathVariable UUID id);
 
     @Operation(operationId = "getAllUsers", summary = "Get all users.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
@@ -118,32 +118,6 @@ public interface UserApi {
     })
     @GetMapping(value = "/get/user", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<UserDto>> getAllUsers(Pageable pageable);
-
-    @Operation(operationId = "getAdminWithEmail", summary = "Get admin with email.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
-    })
-    @GetMapping(value = "/get/admin/email/{email}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UserDto> getAdminWithEmail(@PathVariable String email);
-
-    @Operation(operationId = "getAdminWithId", summary = "Get admin with id.")
-    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
-            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
-            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
-    })
-    @GetMapping(value = "/get/admin/id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<UserDto> getAdminWithId(@PathVariable UUID id);
 
     @Operation(operationId = "getAllAdmins", summary = "Get all admins.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = UserDto.class))),
