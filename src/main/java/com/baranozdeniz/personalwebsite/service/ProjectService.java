@@ -15,6 +15,7 @@ public interface ProjectService {
     ProjectDto getProjectWithId(UUID id);
     ProjectDto getProjectWithName(String name);
     Page<ProjectDto> getProjects(Pageable pageable);
+    int getProjectCount();
     ProjectDto updateProject(UUID id, ProjectUpdateDto projectUpdateDto, MultipartFile file);
     Boolean deleteProject(UUID id);
 

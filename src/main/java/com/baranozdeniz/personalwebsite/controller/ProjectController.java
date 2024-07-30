@@ -41,6 +41,11 @@ public class ProjectController implements ProjectApi {
     }
 
     @Override
+    public ResponseEntity<Integer> getProjectCount() {
+        return ResponseEntity.ok(service.getProjectCount());
+    }
+
+    @Override
     public ResponseEntity<ProjectDto> updateProject(UUID id, ProjectUpdateDto projectUpdateDto, MultipartFile file) {
         return ResponseEntity.ok(service.updateProject(id, projectUpdateDto, file));
     }

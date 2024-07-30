@@ -42,6 +42,7 @@ public class SecurityConfig {
             "/api/v1/projects/get",
             "/api/v1/projects/get/id/{id}",
             "/api/v1/projects/get/name/{name}",
+            "/api/v1/projects/get/count",
             "/api/v1/likes/get/{projectId}",
             "/api/v1/comments/get/{id}",
             "/api/v1/comments/get/project/{projectId}",

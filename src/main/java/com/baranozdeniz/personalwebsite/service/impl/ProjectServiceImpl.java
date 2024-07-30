@@ -20,10 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -82,6 +79,12 @@ public class ProjectServiceImpl implements ProjectService {
     public Page<ProjectDto> getProjects(Pageable pageable) {
         Page<Project> responsePage = repository.findAll(pageable);
         return PageMapperHelper.mapEntityPageToDtoPage(responsePage, mapper);
+    }
+
+    @Override
+    public int getProjectCount() {
+        List<Project> responseProjects = repository.findAll();
+        return responseProjects.size();
     }
 
     @Override

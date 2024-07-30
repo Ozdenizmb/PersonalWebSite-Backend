@@ -77,6 +77,19 @@ public interface ProjectApi {
     @GetMapping(value = "/get", produces = MediaType.APPLICATION_JSON_VALUE)
     ResponseEntity<Page<ProjectDto>> getProjects(Pageable pageable);
 
+    @Operation(operationId = "getProjectsCount", summary = "Get projects count.")
+    @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = Integer.class))),
+            @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "401", description = "Unauthorized", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "404", description = "Not Found", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "405", description = "Method Not Allowed", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "409", description = "Conflict", content = @Content(schema = @Schema(implementation = Error.class))),
+            @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
+    })
+    @GetMapping(value = "/get/count", produces = MediaType.APPLICATION_JSON_VALUE)
+    ResponseEntity<Integer> getProjectCount();
+
     @Operation(operationId = "updateProject", summary = "Update project. (You need use postman. You cannot use this method in Swagger.)")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = ProjectDto.class))),
             @ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(schema = @Schema(implementation = Error.class))),
