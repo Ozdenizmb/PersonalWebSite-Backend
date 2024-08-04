@@ -34,4 +34,6 @@ public class ErrorMessages {
 
     public static final String INCORRECT_LOGIN = "Incorrect Email or Password Entry";
 
+    public static final String CONTACT_NOT_FOUND = "Message Not Found!";
+
 }
