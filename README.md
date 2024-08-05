@@ -12,7 +12,7 @@
 
 <h3>2. Create a file named gradle.properties</h3>
 
-<p>adminSignUpKey=&lt;YOUR_ADMIN_SIGN_UP_KEY&gt;</p>
+<p>adminKey=&lt;YOUR_ADMIN_KEY&gt;</p>
 <br>
 <p>awsAccessKey=&lt;YOUR_AWS_ACCESS_KEY&gt;</p>
 <p>awsSecretKey=&lt;YOUR_AWS_SECRET_KEY&gt;</p>
