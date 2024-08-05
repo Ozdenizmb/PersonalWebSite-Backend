@@ -1,5 +1,6 @@
 package com.baranozdeniz.personalwebsite.dto;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record ProjectDto(
@@ -8,6 +9,8 @@ public record ProjectDto(
         String description,
         String url,
         String technologies,
-        String imageUrl
+        String imageUrl,
+        LocalDateTime createdDate,
+        LocalDateTime updatedDate
 ) {
 }
