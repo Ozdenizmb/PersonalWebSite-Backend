@@ -30,7 +30,7 @@ management:
 
 ## Admin Key ##
 admin:
-  key: ${adminSignUpKey}
+  key: ${adminKey}
 
 ## FILE ##
 file:
