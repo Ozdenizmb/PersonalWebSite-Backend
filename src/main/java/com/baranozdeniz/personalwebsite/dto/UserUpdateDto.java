@@ -12,9 +12,6 @@ public record UserUpdateDto(
         @NotBlank
         @NotNull
         String lastName,
-        @NotBlank
-        @NotNull
-        String password,
         String biography,
         String phoneNumber,
         String profession,

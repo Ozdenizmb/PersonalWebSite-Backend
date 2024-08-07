@@ -189,7 +189,6 @@ public class UserServiceImpl implements UserService {
 
         User existUser = responseUser.get();
         BeanUtils.copyProperties(userUpdateDto, existUser);
-        existUser.setPassword(passwordEncoder.encode(existUser.getPassword()));
 
         if(file != null && !file.isEmpty()) {
             String fileType = Objects.requireNonNull(file.getContentType()).split("/")[1];
@@ -225,7 +224,6 @@ public class UserServiceImpl implements UserService {
 
             User existUser = responseUser.get();
             BeanUtils.copyProperties(userUpdateDto, existUser);
-            existUser.setPassword(passwordEncoder.encode(existUser.getPassword()));
 
             if(file != null && !file.isEmpty()) {
                 String fileType = Objects.requireNonNull(file.getContentType()).split("/")[1];
