@@ -61,7 +61,7 @@ public interface CommentApi {
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
     @GetMapping(value = "/get/project/{projectId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Page<CommentDto>> getCommentsWithProject(@PathVariable UUID projectId, Pageable pageable);
+    ResponseEntity<Page<CommentWithUserDto>> getCommentsWithProject(@PathVariable UUID projectId, Pageable pageable);
 
     @Operation(operationId = "getCommentsWithUser", summary = "Get comments with user.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = CommentDto.class))),
@@ -74,7 +74,7 @@ public interface CommentApi {
             @ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(schema = @Schema(implementation = Error.class)))
     })
     @GetMapping(value = "/get/user/{userId}", produces = MediaType.APPLICATION_JSON_VALUE)
-    ResponseEntity<Page<CommentDto>> getCommentsWithUser(@PathVariable UUID userId, Pageable pageable);
+    ResponseEntity<Page<CommentWithUserDto>> getCommentsWithUser(@PathVariable UUID userId, Pageable pageable);
 
     @Operation(operationId = "updateComment", summary = "Update comment.")
     @ApiResponses(value = {@ApiResponse(responseCode = "200", description = "SUCCESS", content = @Content(schema = @Schema(implementation = CommentDto.class))),
