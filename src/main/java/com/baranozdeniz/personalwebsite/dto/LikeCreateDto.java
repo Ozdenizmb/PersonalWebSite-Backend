@@ -6,10 +6,8 @@ import jakarta.validation.constraints.NotNull;
 import java.util.UUID;
 
 public record LikeCreateDto(
-        @NotBlank
         @NotNull
         UUID userId,
-        @NotBlank
         @NotNull
         UUID projectId
 ) {
