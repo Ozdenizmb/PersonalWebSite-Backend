@@ -7,9 +7,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5432/personal_website
-    username: postgres
-    password: 159753
+    url: ${datasourceUrl}
+    username: ${datasourceUsername}
+    password: ${datasourcePassword}
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  hikari:
+    connection-timeout: 30000
     pool:
       max-create-connection-time: 2s
       initial-size: 5

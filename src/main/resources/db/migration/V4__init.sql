@@ -1,15 +1,16 @@
-CREATE SCHEMA IF NOT EXISTS util_sch;
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-CREATE TABLE IF NOT EXISTS util_sch.like_data
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'util_sch')
+BEGIN
+EXEC('CREATE SCHEMA util_sch');
+END
+CREATE TABLE util_sch.like_data
 (
-    id                  uuid DEFAULT uuid_generate_v4(),
-    user_id                     uuid NOT NULL,
-    project_id                  uuid NOT NULL,
-    created_date                DATE NOT NULL,
-    updated_date                DATE NOT NULL,
-    UNIQUE (user_id, project_id),
+    id                  UNIQUEIDENTIFIER DEFAULT NEWID(),
+    user_id             UNIQUEIDENTIFIER NOT NULL,
+    project_id          UNIQUEIDENTIFIER NOT NULL,
+    created_date        DATETIME NOT NULL,
+    updated_date        DATETIME NOT NULL,
     PRIMARY KEY (id),
+    UNIQUE (user_id, project_id),
     FOREIGN KEY (user_id) REFERENCES util_sch.user_data(id),
     FOREIGN KEY (project_id) REFERENCES util_sch.project_data(id)
 );

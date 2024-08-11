@@ -1,20 +1,20 @@
-CREATE SCHEMA IF NOT EXISTS util_sch;
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
-CREATE TABLE IF NOT EXISTS util_sch.user_data
+IF NOT EXISTS (SELECT * FROM sys.schemas WHERE name = 'util_sch')
+BEGIN
+EXEC('CREATE SCHEMA util_sch');
+END
+CREATE TABLE util_sch.user_data
 (
-    id                  uuid DEFAULT uuid_generate_v4(),
-    first_name                  VARCHAR NOT NULL,
-    last_name                   VARCHAR NOT NULL,
-    email                       VARCHAR NOT NULL UNIQUE,
-    password                    VARCHAR NOT NULL,
-    image_url                   VARCHAR UNIQUE,
-    biography                   VARCHAR,
-    phone_number                VARCHAR,
-    profession                  VARCHAR,
-    birthday                    DATE,
-    role                        VARCHAR NOT NULL,
-    created_date                DATE NOT NULL,
-    updated_date                DATE NOT NULL,
-    PRIMARY KEY (id)
+    id UNIQUEIDENTIFIER DEFAULT NEWID() PRIMARY KEY,
+    first_name VARCHAR(255) NOT NULL,
+    last_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    image_url VARCHAR(255) UNIQUE,
+    biography VARCHAR(255),
+    phone_number VARCHAR(50),
+    profession VARCHAR(100),
+    birthday DATE,
+    role VARCHAR(50) NOT NULL,
+    created_date DATETIME NOT NULL DEFAULT GETDATE(),
+    updated_date DATETIME NOT NULL DEFAULT GETDATE()
 );

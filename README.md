@@ -19,6 +19,10 @@
 <p>awsS3BucketName=&lt;YOUR_AWS_BUCKET_NAME&gt;</p>
 <p>awsRegion=&lt;YOUR_AWS_REGION_NAME&gt;</p>
 <p>awsCdnPath=&lt;YOUR_AWS_CDN_PATH&gt;</p>
+<br>
+<p>datasourceUrl=&lt;YOUR_DATASOURCE_URL (URL+DATABASE_NAME)&gt;</p>
+<p>datasourceUsername=&lt;YOUR_DATASOURCE_USERNAME&gt;</p>
+<p>datasourcePassword=&lt;YOUR_DATASOURCE_PASSWORD&gt;</p>
 
 <br><br><br>
 <p><i>For adminSignUpKey, you can randomly write the key you want. However, you must not forget this key information. If you forget this information, you won't be able to register as an admin.</i></p>
