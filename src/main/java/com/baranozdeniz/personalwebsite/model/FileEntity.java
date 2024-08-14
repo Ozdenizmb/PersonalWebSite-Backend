@@ -18,7 +18,7 @@ import java.util.UUID;
 @Builder
 @Entity
 @EntityListeners({AuditingEntityListener.class})
-@Table(name = "asset_data", schema = "util_sch")
+@Table(name = "asset_data")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FileEntity {
 

@@ -10,7 +10,9 @@ spring:
     url: ${datasourceUrl}
     username: ${datasourceUsername}
     password: ${datasourcePassword}
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    driver-class-name: org.mariadb.jdbc.Driver
+  flyway:
+    enabled: true
   hikari:
     connection-timeout: 30000
     pool:

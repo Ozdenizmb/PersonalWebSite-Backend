@@ -7,7 +7,11 @@ import com.baranozdeniz.personalwebsite.exception.ErrorMessages;
 import com.baranozdeniz.personalwebsite.exception.PwsException;
 import com.baranozdeniz.personalwebsite.mapper.PageMapperHelper;
 import com.baranozdeniz.personalwebsite.mapper.ProjectMapper;
+import com.baranozdeniz.personalwebsite.model.Comment;
+import com.baranozdeniz.personalwebsite.model.Like;
 import com.baranozdeniz.personalwebsite.model.Project;
+import com.baranozdeniz.personalwebsite.repository.CommentRepository;
+import com.baranozdeniz.personalwebsite.repository.LikeRepository;
 import com.baranozdeniz.personalwebsite.repository.ProjectRepository;
 import com.baranozdeniz.personalwebsite.service.FileService;
 import com.baranozdeniz.personalwebsite.service.ProjectService;
@@ -27,6 +31,8 @@ import java.util.*;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository repository;
+    private final CommentRepository commentRepository;
+    private final LikeRepository likeRepository;
     private final ProjectMapper mapper;
     private final FileService fileService;
 
@@ -125,6 +131,13 @@ public class ProjectServiceImpl implements ProjectService {
         }
 
         Project existProject = responseProject.get();
+
+        List<Like> responseLike = likeRepository.findAllByProjectId(existProject.getId());
+        List<Comment> responseComment = commentRepository.findAllByProjectId(existProject.getId());
+
+        likeRepository.deleteAll(responseLike);
+        commentRepository.deleteAll(responseComment);
+
         repository.delete(existProject);
         fileService.deleteFile(existProject.getImageUrl());
 

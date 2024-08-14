@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Entity
 @Data
-@Table(name = "contact_data", schema = "util_sch")
+@Table(name = "contact_data")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Contact extends BaseEntity {
 

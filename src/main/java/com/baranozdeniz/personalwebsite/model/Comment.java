@@ -11,7 +11,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @Data
 @Entity
-@Table(name = "comment_data", schema = "util_sch")
+@Table(name = "comment_data")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Comment extends BaseEntity {
 
