@@ -38,3 +38,5 @@ out/
 
 .DS_Store
 gradle.properties
+
+src/main/resources/keystore.p12

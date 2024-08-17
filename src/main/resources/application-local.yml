@@ -4,7 +4,12 @@ server:
   netty:
     connection-timeout: 2s
     idle-timeout: 15s
-
+  ssl:
+    enabled: true
+    key-store: classpath:keystore.p12
+    key-store-password: ${sslKeyPassword}
+    key-store-type: PKCS12
+    key-alias: tomcat
 spring:
   datasource:
     url: ${datasourceUrl}
