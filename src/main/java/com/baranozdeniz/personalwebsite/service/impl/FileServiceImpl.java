@@ -1,7 +1,5 @@
 package com.baranozdeniz.personalwebsite.service.impl;
 
-import com.amazonaws.services.s3.AmazonS3;
-import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.baranozdeniz.personalwebsite.exception.ErrorMessages;
 import com.baranozdeniz.personalwebsite.exception.PwsException;
 import com.baranozdeniz.personalwebsite.model.FileEntity;
@@ -29,7 +27,6 @@ import java.util.concurrent.ExecutionException;
 public class FileServiceImpl implements FileService {
 
     private final FileRepository repository;
-    private final AmazonS3 amazonS3Client;
 
     @Value("${file.allowed-formats-for-project}")
     private String[] allowedFormats;
@@ -38,8 +35,6 @@ public class FileServiceImpl implements FileService {
     @Value("${file.default-image-width}")
     private int defaultImageWidth;
 
-    @Value("${aws.s3.bucketName}")
-    private String bucketName;
     @Value("${aws.cdn.path}")
     private String cdnPath;
 

@@ -50,18 +50,7 @@ file:
   default-image-width: 2000
 
 ## AMAZON ##
-cloud:
-  aws:
-    credentials:
-      accessKey: ${awsAccessKey}
-      secretKey: ${awsSecretKey}
-    region:
-      static: ${awsRegion}
-    stack:
-      auto: false
 aws:
-  s3:
-    bucketName: ${awsS3BucketName}
   cdn:
     path: ${awsCdnPath}
 

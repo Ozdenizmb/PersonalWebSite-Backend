@@ -18,10 +18,6 @@
 
 <p>adminKey=&lt;YOUR_ADMIN_KEY&gt;</p>
 <br>
-<p>awsAccessKey=&lt;YOUR_AWS_ACCESS_KEY&gt;</p>
-<p>awsSecretKey=&lt;YOUR_AWS_SECRET_KEY&gt;</p>
-<p>awsS3BucketName=&lt;YOUR_AWS_BUCKET_NAME&gt;</p>
-<p>awsRegion=&lt;YOUR_AWS_REGION_NAME&gt;</p>
 <p>awsCdnPath=&lt;YOUR_AWS_CDN_PATH&gt;</p>
 <br>
 <p>datasourceUrl=&lt;YOUR_DATASOURCE_URL (URL+DATABASE_NAME)&gt;</p>

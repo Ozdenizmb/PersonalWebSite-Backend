@@ -20,8 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    @Autowired
-    private AuthService authService;
+    private final AuthService authService;
 
     private static final String[] AUTH_WHITELIST = {
             "/v3/api-docs/**",
