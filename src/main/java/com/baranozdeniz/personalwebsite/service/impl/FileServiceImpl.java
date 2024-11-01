@@ -35,6 +35,8 @@ public class FileServiceImpl implements FileService {
     @Value("${file.default-image-width}")
     private int defaultImageWidth;
 
+    @Value("${file.server-path}")
+    private String serverFilePath;
     @Value("${aws.cdn.path}")
     private String cdnPath;
 
@@ -60,15 +62,13 @@ public class FileServiceImpl implements FileService {
                 writer.drawImage(originalImage, 0, 0, defaultImageWidth, defaultImageHeight, null);
                 writer.dispose();
 
-                tempFile = File.createTempFile(randomName, "." + fileType);
+                tempFile = new File(serverFilePath, fileName);
                 ImageIO.write(resizedImage, fileType, tempFile);
             }
             else {
-                tempFile = File.createTempFile(randomName, "." + fileType);
+                tempFile = new File(serverFilePath, fileName);
                 file.transferTo(tempFile);
             }
-
-            amazonS3Client.putObject(new PutObjectRequest(bucketName, fileName, tempFile));
 
             tempFile.delete();
 
@@ -122,7 +122,19 @@ public class FileServiceImpl implements FileService {
 
             try {
                 repository.delete(existFile);
-                amazonS3Client.deleteObject(bucketName, splitFileName);
+
+                String filePath = serverFilePath + "/" + existFile.getName();
+                File fileToDelete = new File(filePath);
+
+                if(fileToDelete.exists()) {
+                    boolean isDeleted = fileToDelete.delete();
+                    if (!isDeleted) {
+                        throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_DELETE);
+                    }
+                } else {
+                    throw PwsException.withStatusAndMessage(HttpStatus.NOT_FOUND, ErrorMessages.FILE_NOT_FOUND);
+                }
+
             } catch (Exception e) {
                 throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_DELETE);
             }
