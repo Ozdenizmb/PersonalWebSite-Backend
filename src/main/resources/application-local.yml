@@ -48,10 +48,6 @@ file:
   allowed-formats-for-project: png, jpeg, jpg, mp3, mpeg, mp4, pdf, csv
   default-image-height: 2000
   default-image-width: 2000
-  server-path: ${serverFilePath}
-
-## AMAZON ##
-aws:
   cdn:
     path: ${awsCdnPath}
 

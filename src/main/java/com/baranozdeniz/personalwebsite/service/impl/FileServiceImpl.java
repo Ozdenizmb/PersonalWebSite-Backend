@@ -35,9 +35,8 @@ public class FileServiceImpl implements FileService {
     @Value("${file.default-image-width}")
     private int defaultImageWidth;
 
-    @Value("${file.server-path}")
-    private String serverFilePath;
-    @Value("${aws.cdn.path}")
+    private final String serverFilePath = System.getProperty("user.dir") + "/assets/";
+    @Value("${file.cdn.path}")
     private String cdnPath;
 
     @Override
@@ -70,8 +69,6 @@ public class FileServiceImpl implements FileService {
                 file.transferTo(tempFile);
             }
 
-            tempFile.delete();
-
             FileEntity fileEntity = FileEntity.builder()
                     .name(fileName)
                     .type(file.getContentType())
@@ -80,7 +77,7 @@ public class FileServiceImpl implements FileService {
 
             FileEntity responseFile = repository.save(fileEntity);
 
-            return responseFile.getCdnPath() + "/" + responseFile.getName();
+            return responseFile.getName();
 
         } catch (IOException e) {
             throw PwsException.withStatusAndMessage(HttpStatus.INTERNAL_SERVER_ERROR, ErrorMessages.FILE_CANNOT_WRITE);
@@ -113,9 +110,7 @@ public class FileServiceImpl implements FileService {
 
     @Override
     public void deleteFile(String fileName) {
-
-        String splitFileName = fileName.split(cdnPath + "/")[1];
-        Optional<FileEntity> response = repository.findByName(splitFileName);
+        Optional<FileEntity> response = repository.findByName(fileName);
 
         if(response.isPresent()){
             FileEntity existFile = response.get();
