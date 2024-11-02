@@ -68,7 +68,9 @@ public class SecurityConfig {
             "/api/v1/projects/delete/{id}",
             "/api/v1/contacts/get/{id}",
             "/api/v1/contacts/getpage",
-            "/api/v1/contacts/delete/{id}"
+            "/api/v1/contacts/delete/{id}",
+            "/api/v1/assets/upload",
+            "/api/v1/assets/delete/{fileName}"
     };
 
     @Bean
