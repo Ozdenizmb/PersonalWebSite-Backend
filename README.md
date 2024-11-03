@@ -18,8 +18,7 @@
 
 <p>adminKey=&lt;YOUR_ADMIN_KEY&gt;</p>
 <br>
-<p>serverFilePath=&lt;YOUR_SERVER_FILE_PATH&gt;</p>
-<p>awsCdnPath=&lt;YOUR_AWS_CDN_PATH&gt;</p>
+<p>fileCdnPath=&lt;YOUR_FILE_CDN_PATH&gt;</p>
 <br>
 <p>datasourceUrl=&lt;YOUR_DATASOURCE_URL (URL+DATABASE_NAME)&gt;</p>
 <p>datasourceUsername=&lt;YOUR_DATASOURCE_USERNAME&gt;</p>

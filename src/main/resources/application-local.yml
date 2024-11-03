@@ -49,7 +49,7 @@ file:
   default-image-height: 2000
   default-image-width: 2000
   cdn:
-    path: ${awsCdnPath}
+    path: ${fileCdnPath}
 
 ## OpenApi Settings ##
 springdoc:
