@@ -7,7 +7,6 @@ import com.baranozdeniz.personalwebsite.dto.CommentWithUserDto;
 import com.baranozdeniz.personalwebsite.exception.ErrorMessages;
 import com.baranozdeniz.personalwebsite.exception.PwsException;
 import com.baranozdeniz.personalwebsite.mapper.CommentMapper;
-import com.baranozdeniz.personalwebsite.mapper.PageMapperHelper;
 import com.baranozdeniz.personalwebsite.model.Comment;
 import com.baranozdeniz.personalwebsite.model.User;
 import com.baranozdeniz.personalwebsite.repository.CommentRepository;

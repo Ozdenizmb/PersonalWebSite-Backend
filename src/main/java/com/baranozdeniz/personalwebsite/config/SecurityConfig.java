@@ -3,7 +3,6 @@ package com.baranozdeniz.personalwebsite.config;
 import com.baranozdeniz.personalwebsite.exception.AuthException;
 import com.baranozdeniz.personalwebsite.service.AuthService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
